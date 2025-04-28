@@ -1,0 +1,12 @@
+{
+  "name": "pokemon-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build" : "npx tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
