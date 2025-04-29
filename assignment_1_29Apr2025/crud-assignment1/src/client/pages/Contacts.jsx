@@ -51,6 +51,17 @@ const Contacts = () => {
     }
   };
 
+  const handleCreateContact = async (contactData) => {
+    try {
+      const response = await axios.post("/api/v1/contact", contactData);
+      setContacts([...contacts, response.data.data]);
+      toast.success("Contact created successfully");
+    } catch (err) {
+      console.error("Error creating contact:", err);
+      toast.error("An error occurred while creating the contact");
+    }
+  };
+
   return (
     <Container maxWidth="xl" component="main" sx={{ py: 4 }}>
       {isLoading ? (
@@ -63,6 +74,7 @@ const Contacts = () => {
             subtitle="Let's get started. To add a new contact, click on the button below."
             url="/new-contact"
             buttonName="Add Contact"
+            onCreateContact={handleCreateContact}
           />
         </Card>
       ) : (
@@ -96,7 +108,7 @@ const Contacts = () => {
               <TableBody>
                 {contacts.map((contact) => (
                   <TableRow key={contact.id} hover>
-                    <TableCell>{contact.id}</TableCell>
+                    <TableCell>{contact.id}</TableCell> {/* Displaying UUID as a string */}
                     <TableCell>{contact.firstName}</TableCell>
                     <TableCell>{contact.lastName}</TableCell>
                     <TableCell>{contact.email}</TableCell>

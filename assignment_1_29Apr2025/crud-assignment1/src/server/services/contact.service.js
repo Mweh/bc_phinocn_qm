@@ -15,12 +15,12 @@ class ContactService {
 
   /**
    * Finds a contact by their ID
-   * @param {number|string} id - The contact's ID
+   * @param {string} id - The contact's ID (UUID as string)
    * @returns {Promise<Object|null>} Contact object or null if not found
    */
   async findById(id) {
     return db.prisma.contact.findUnique({
-      where: { id: Number(id) },
+      where: { id: id },  // id is now a string (UUID)
     });
   }
 
@@ -40,25 +40,25 @@ class ContactService {
 
   /**
    * Updates an existing contact
-   * @param {number|string} id - Contact ID to update
+   * @param {string} id - Contact ID to update (UUID as string)
    * @param {Object} data - Updated contact data
    * @returns {Promise<Object>} Updated contact
    */
   async update(id, data) {
     return db.prisma.contact.update({
-      where: { id: Number(id) },
+      where: { id: id },  // id is now a string (UUID)
       data,
     });
   }
 
   /**
    * Deletes a contact
-   * @param {number|string} id - Contact ID to delete
+   * @param {string} id - Contact ID to delete (UUID as string)
    * @returns {Promise<Object>} Deleted contact
    */
   async delete(id) {
     return db.prisma.contact.delete({
-      where: { id: Number(id) },
+      where: { id: id },  // id is now a string (UUID)
     });
   }
 }

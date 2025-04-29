@@ -97,7 +97,7 @@ const Home = () => {
     <Container maxWidth="lg" sx={{ mt: 4 }}>
       <Box textAlign="center" mb={6}>
         <Typography variant="h3" component="h1" gutterBottom>
-          simple-vite-react-express template
+          simple-vite-react-express
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
           A comprehensive starter kit demonstrating modern web development practices

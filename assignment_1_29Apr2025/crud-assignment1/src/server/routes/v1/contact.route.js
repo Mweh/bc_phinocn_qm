@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const contact = await contactService.findById(id);
+    const contact = await contactService.findById(id); // No need for conversion, id is now a string (UUID)
 
     if (!contact) {
       return res.status(404).json(errorResponse("Contact not found"));
@@ -62,11 +62,11 @@ router.post("/", contactValidation.create, async (req, res) => {
  * Update an existing contact by ID.
  */
 router.put("/:id", contactValidation.update, async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // id is now a string (UUID)
   const { firstName, lastName, email } = req.body;
 
   try {
-    const contact = await contactService.update(Number(id), { firstName, lastName, email });
+    const contact = await contactService.update(id, { firstName, lastName, email }); // Pass id as string (UUID)
 
     res.status(200).json(successResponse(contact));
   } catch (err) {
@@ -80,10 +80,10 @@ router.put("/:id", contactValidation.update, async (req, res) => {
  * Delete a contact by ID.
  */
 router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // id is now a string (UUID)
 
   try {
-    const contact = await contactService.delete(Number(id));
+    const contact = await contactService.delete(id); // Pass id as string (UUID)
 
     res.status(200).json(successResponse(contact));
   } catch (err) {
