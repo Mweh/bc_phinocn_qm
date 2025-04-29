@@ -5,6 +5,7 @@ import { Box, Button, Container, IconButton, Paper, Table, TableBody, TableCell,
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
 import CallToAction from "../components/CallToAction";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import { toast } from "react-toastify";
@@ -100,7 +101,7 @@ const Contacts = () => {
                   <TableCell sx={{ fontWeight: "bold" }}>First Name</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>Last Name</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }} width={120}>
+                  <TableCell sx={{ fontWeight: "bold" }} width={160}>
                     Actions
                   </TableCell>
                 </TableRow>
@@ -108,13 +109,16 @@ const Contacts = () => {
               <TableBody>
                 {contacts.map((contact) => (
                   <TableRow key={contact.id} hover>
-                    <TableCell>{contact.id}</TableCell> {/* Displaying UUID as a string */}
+                    <TableCell>{contact.id}</TableCell>
                     <TableCell>{contact.firstName}</TableCell>
                     <TableCell>{contact.lastName}</TableCell>
                     <TableCell>{contact.email}</TableCell>
                     <TableCell>
                       <IconButton component={Link} to={`/contact/${contact.id}`} color="primary" size="small">
                         <VisibilityIcon />
+                      </IconButton>
+                      <IconButton component={Link} to={`/edit-contact/${contact.id}`} color="info" size="small">
+                        <EditIcon />
                       </IconButton>
                       <IconButton onClick={() => handleDeleteContact(contact.id)} color="error" size="small">
                         <DeleteIcon />
@@ -139,3 +143,4 @@ const Contacts = () => {
 };
 
 export default Contacts;
+

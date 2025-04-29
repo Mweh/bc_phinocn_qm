@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import NewContact from "./pages/NewContact";
 import Contacts from "./pages/Contacts";
 import ContactDetail from "./pages/ContactDetail";
+import EditContact from "./pages/EditContact";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 
@@ -28,6 +29,7 @@ if (root !== null) {
             <Route path="/contacts" element={<Contacts key="contacts" />} />
             <Route path="/new-contact" element={<NewContact key="new-contact" />} />
             <Route path="/contact/:id" element={<ContactDetail key="contact-detail" />} key="contact-detail"></Route>
+            <Route path="/edit-contact/:id" element={<EditContact key="edit-contact" />} key="edit-contact"></Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -35,3 +37,4 @@ if (root !== null) {
     </React.Fragment>
   );
 }
+
