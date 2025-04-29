@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AccountCircle, Email, Person, PersonAdd, SaveAlt } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const useStyles = makeStyles((theme) => ({
   errorMessage: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const NewContact = () => {
   const theme = useTheme();
   const classes = useStyles(); // Add this line to use the styles
+  const navigate = useNavigate(); // Initialize navigate hook
 
   const ContactSchema = Yup.object().shape({
     firstName: Yup.string().required("First name is required"),
@@ -37,6 +39,9 @@ const NewContact = () => {
 
       toast.success("Contact created successfully");
       resetForm(); // Reset form after successful creation
+
+      // Navigate to the contacts page after successful contact creation
+      navigate("/contacts");
     } catch (err) {
       console.error(err);
       toast.error("An error occurred while creating the contact");
