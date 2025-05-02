@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import { TextField, Button, Typography, Grid, Box, Container, Card, CardContent } from "@mui/material";
+import { TextField, Button, Typography, Grid, Box, Container, Card, CardContent, IconButton } from "@mui/material";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { AccountCircle, Email, Person, PersonAdd, SaveAlt } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { AccountCircle, Email, Person, PersonAdd, SaveAlt, Delete } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   errorMessage: {
@@ -20,8 +20,10 @@ const useStyles = makeStyles((theme) => ({
 
 const NewContact = () => {
   const theme = useTheme();
-  const classes = useStyles(); // Add this line to use the styles
-  const navigate = useNavigate(); // Initialize navigate hook
+  const classes = useStyles();
+  const navigate = useNavigate();
+
+  const [notes, setNotes] = useState([]); // State for storing multiple notes
 
   const ContactSchema = Yup.object().shape({
     firstName: Yup.string().required("First name is required"),
@@ -31,21 +33,41 @@ const NewContact = () => {
 
   const handleContactSubmit = async (values, { resetForm }) => {
     try {
-      const response = await axios.post("/api/v1/contact", {
+      const contactResponse = await axios.post("/api/v1/contact", {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
       });
 
-      toast.success("Contact created successfully");
-      resetForm(); // Reset form after successful creation
+      if (notes.length > 0) {
+        await axios.post("/api/v1/notes", {
+          contactId: contactResponse.data.id,
+          notes: notes,
+        });
+      }
 
-      // Navigate to the contacts page after successful contact creation
+      toast.success("Contact and notes created successfully!");
+      resetForm();
+      setNotes([]);
       navigate("/contacts");
     } catch (err) {
       console.error(err);
       toast.error("An error occurred while creating the contact");
     }
+  };
+
+  const handleAddNote = () => {
+    setNotes([...notes, ""]);
+  };
+
+  const handleNoteChange = (index, value) => {
+    const updatedNotes = [...notes];
+    updatedNotes[index] = value;
+    setNotes(updatedNotes);
+  };
+
+  const handleRemoveNote = (index) => {
+    setNotes(notes.filter((_, i) => i !== index));
   };
 
   return (
@@ -112,6 +134,42 @@ const NewContact = () => {
                     />
                     <ErrorMessage className={classes.errorMessage} name="email" component="div" />
                   </Grid>
+
+                  {/* Notes Section */}
+                  {notes.map((note, index) => (
+                    <Grid item xs={12} key={index}>
+                      <Box display="flex" gap={2}>
+                        <TextField
+                          label={`Note ${index + 1}`}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          value={note}
+                          onChange={(e) => handleNoteChange(index, e.target.value)}
+                        />
+                        <IconButton
+                          color="error"
+                          onClick={() => handleRemoveNote(index)}
+                          sx={{ height: 40, alignSelf: "start", mt: 1 }}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </Box>
+                    </Grid>
+                  ))}
+
+                  <Grid item xs={12}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={handleAddNote}
+                      sx={{ mt: 2 }}
+                    >
+                      Add Note
+                    </Button>
+                  </Grid>
+
                   <Grid item xs={12}>
                     <Button
                       variant="contained"

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node"],  // Enable Node.js type definitions
+    "outDir": "./dist",   // Where compiled .js files will go
+    "allowJs": true
+  },
+  "include": [
+    "src/**/*.ts",  // Include TypeScript files
+    "src/**/*.js"   // Include JavaScript files
+  ]
+}

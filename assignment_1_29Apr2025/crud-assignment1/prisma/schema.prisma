@@ -1,16 +1,44 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions"]
 }
 
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String   @id @default(cuid())
+  email    String   @unique
+  password String
+}
+
 model Contact {
-  id        String           @id @default(uuid())
-  firstName String
-  lastName  String
-  email     String
+  id         String     @id @default(uuid())
+  firstName  String
+  lastName   String
+  email      String     @unique
+  notes      Note[]
+  categories Category[] @relation("ContactCategory")
+  tags       Tag[]      @relation("ContactTag")
+}
+
+model Note {
+  id        String  @id @default(uuid())
+  content   String
+  contactId String
+  contact   Contact @relation(fields: [contactId], references: [id])
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String
+  contacts Contact[] @relation("ContactCategory")
+}
+
+model Tag {
+  id       String    @id @default(uuid())
+  name     String
+  contacts Contact[] @relation("ContactTag")
 }
