@@ -26,3 +26,25 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+# Phincon reward-system_mini-project specific
+# Node modules specific to this project
+/reward-system_mini-project/node_modules/
+
+# Build outputs specific to this project
+/reward-system_mini-project/dist/
+
+# TypeScript compiled files in the src folder (excluding TypeScript files)
+# Compiled JavaScript should not be versioned in this project
+/reward-system_mini-project/src/**/*.js
+
+# Sequelize migration generated files (these are JS files from the migration)
+# You likely don't want these generated files in the repo
+/reward-system_mini-project/src/database/migrations/*-create-reward.js
+
+# IDE settings specific to the reward-system_mini-project
+/reward-system_mini-project/.idea/
+/reward-system_mini-project/.vscode/
+
+# Logs or other temporary files from reward-system_mini-project
+/reward-system_mini-project/*.log
